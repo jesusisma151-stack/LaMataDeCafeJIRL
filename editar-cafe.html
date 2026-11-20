@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Editor - JIRL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cafe.css">
+</head>
+<body class="pagina-editor">
+
+    <!-- Cabecera Verde -->
+    <header class="header-editor">
+        <div class="logo-editor-contenedor">
+            <img src="logo-cafe.jpeg" alt="Logo JIRL" class="logo-editor">
+        </div>
+        <div class="textos-editor">
+            <h1>Bienvenido Usuario Editor</h1>
+            <h2>La mata de café JIRL</h2>
+        </div>
+    </header>
+
+    <main class="contenedor-calidad" id="contenedor-editor">
+        <!-- JavaScript inyectará el contenido aquí -->
+    </main>
+
+    <div style="text-align: center; padding-bottom: 50px;">
+        <button onclick="mostrarFormularioNuevo()" class="boton-agregar">+ agregar nuevo café</button>
+    </div>
+
+    <!-- MODAL 1: Agregar Nuevo Café -->
+    <div id="modal-nuevo" class="modal">
+        <div class="modal-contenido">
+            <h3>Agregar Nuevo Café</h3>
+            <label>Nombre del café:</label>
+            <input type="text" id="nuevo-nombre" placeholder="Ej. Café Oro">
+            <label>Seleccione la imagen:</label>
+            <input type="file" id="nueva-imagen" accept="image/*">
+            <div class="modal-botones">
+                <button onclick="guardarNuevoCafe()" class="boton-guardar">Guardar</button>
+                <button onclick="cerrarFormularioNuevo()" class="boton-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Editar Información del Café -->
+    <div id="modal-editar" class="modal">
+        <div class="modal-contenido">
+            <h3>Editar Información</h3>
+            
+            <label>Nombre:</label>
+            <input type="text" id="edit-nombre">
+            
+            <label>Descripción:</label>
+            <textarea id="edit-descripcion" rows="4"></textarea>
+            
+            <label>Precio Alta Calidad ($):</label>
+            <input type="number" id="edit-alta">
+            
+            <label>Precio Mediana Calidad ($):</label>
+            <input type="number" id="edit-media">
+            
+            <label>Precio Baja Calidad ($):</label>
+            <input type="number" id="edit-baja">
+
+            <label>Cambiar Imagen (Opcional):</label>
+            <input type="file" id="edit-imagen" accept="image/*">
+            
+            <div class="modal-botones">
+                <button onclick="guardarEdicion()" class="boton-guardar">Guardar Cambios</button>
+                <button onclick="cerrarFormularioEditar()" class="boton-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos por defecto
+        const cafesPorDefecto = [
+            { id: 1, nombre: 'Café cereza', imagen: 'cafe-cereza.webp', descripcion: '', precioAlta: '', precioMedia: '', precioBaja: '' },
+            { id: 2, nombre: 'Café robusta', imagen: 'cafe-robusta.webp', descripcion: '', precioAlta: '', precioMedia: '', precioBaja: '' },
+            { id: 3, nombre: 'Café ibérica', imagen: 'cafe-iberica.webp', descripcion: '', precioAlta: '', precioMedia: '', precioBaja: '' },
+            { id: 4, nombre: 'Café excelsa', imagen: 'cafe-excelsa.webp', descripcion: '', precioAlta: '', precioMedia: '', precioBaja: '' }
+        ];
+
+        let listaCafes = JSON.parse(localStorage.getItem('misCafes')) || cafesPorDefecto;
+        let indexEditando = -1; 
+
+        function renderizarEditor() {
+            const contenedor = document.getElementById('contenedor-editor');
+            contenedor.innerHTML = ''; 
+
+            listaCafes.forEach((cafe, index) => {
+                const fila = document.createElement('div');
+                fila.className = 'fila-calidad';
+                fila.innerHTML = `
+                    <div class="columna-nombre">
+                        <!-- Basura -->
+                        <button class="boton-eliminar" onclick="eliminarCafe(${index})" title="Eliminar">
+                            <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                        
+                        <!-- Lápiz (Editar) -->
+                        <button class="boton-eliminar" onclick="abrirEditar(${index})" title="Editar Información">
+                            <svg viewBox="0 0 24 24" width="30" height="30" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+
+                        <h2 class="titulo-calidad">${cafe.nombre}</h2>
+                    </div>
+                    
+                    <!-- AQUÍ ESTABA EL BOTÓN DE "VER PÚBLICO". Lo cambiamos por un div vacío para mantener la imagen a la derecha -->
+                    <div></div>
+                    
+                    <img src="${cafe.imagen}" alt="${cafe.nombre}" class="img-calidad">
+                `;
+                contenedor.appendChild(fila);
+            });
+        }
+
+        /* --- MODAL AGREGAR --- */
+        function mostrarFormularioNuevo() { document.getElementById('modal-nuevo').style.display = 'flex'; }
+        function cerrarFormularioNuevo() { 
+            document.getElementById('modal-nuevo').style.display = 'none'; 
+            document.getElementById('nuevo-nombre').value = '';
+            document.getElementById('nueva-imagen').value = '';
+        }
+
+        function guardarNuevoCafe() {
+            const nombre = document.getElementById('nuevo-nombre').value;
+            const archivoInput = document.getElementById('nueva-imagen');
+            if (!nombre || archivoInput.files.length === 0) { alert("Faltan datos"); return; }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                listaCafes.push({
+                    id: Date.now(),
+                    nombre: nombre,
+                    imagen: e.target.result,
+                    descripcion: '',
+                    precioAlta: '',
+                    precioMedia: '',
+                    precioBaja: ''
+                });
+                guardarYRenderizar();
+                cerrarFormularioNuevo();
+            };
+            reader.readAsDataURL(archivoInput.files[0]);
+        }
+
+        /* --- MODAL EDITAR --- */
+        function abrirEditar(index) {
+            indexEditando = index;
+            const cafe = listaCafes[index];
+
+            document.getElementById('edit-nombre').value = cafe.nombre;
+            document.getElementById('edit-descripcion').value = cafe.descripcion || '';
+            document.getElementById('edit-alta').value = cafe.precioAlta || '';
+            document.getElementById('edit-media').value = cafe.precioMedia || '';
+            document.getElementById('edit-baja').value = cafe.precioBaja || '';
+            document.getElementById('edit-imagen').value = '';
+
+            document.getElementById('modal-editar').style.display = 'flex';
+        }
+
+        function cerrarFormularioEditar() {
+            document.getElementById('modal-editar').style.display = 'none';
+        }
+
+        function guardarEdicion() {
+            const cafe = listaCafes[indexEditando];
+            
+            cafe.nombre = document.getElementById('edit-nombre').value;
+            cafe.descripcion = document.getElementById('edit-descripcion').value;
+            cafe.precioAlta = document.getElementById('edit-alta').value;
+            cafe.precioMedia = document.getElementById('edit-media').value;
+            cafe.precioBaja = document.getElementById('edit-baja').value;
+
+            const archivoInput = document.getElementById('edit-imagen');
+
+            if (archivoInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    cafe.imagen = e.target.result;
+                    finalizarEdicion();
+                };
+                reader.readAsDataURL(archivoInput.files[0]);
+            } else {
+                finalizarEdicion();
+            }
+        }
+
+        function finalizarEdicion() {
+            guardarYRenderizar();
+            cerrarFormularioEditar();
+            alert("Información guardada. Los cambios ya se pueden ver en la página pública.");
+        }
+
+        /* --- FUNCIONES GENERALES --- */
+        function eliminarCafe(index) {
+            if(confirm("¿Eliminar este café?")) {
+                listaCafes.splice(index, 1);
+                guardarYRenderizar();
+            }
+        }
+
+        function guardarYRenderizar() {
+            localStorage.setItem('misCafes', JSON.stringify(listaCafes));
+            renderizarEditor();
+        }
+
+        renderizarEditor();
+    </script>
+</body>
+</html>

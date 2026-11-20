@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Café - JIRL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cafe.css">
+</head>
+<body class="pagina-editor">
+
+    <div class="formulario-edicion-contenedor" id="formulario-edicion">
+        <h2>Editar Detalles del Café</h2>
+        
+        <div class="campo-edit">
+            <label>Nombre:</label>
+            <input type="text" id="edit-nombre">
+        </div>
+        <div class="campo-edit">
+            <label>Descripción:</label>
+            <textarea id="edit-descripcion" rows="5"></textarea>
+        </div>
+        <div class="campo-edit">
+            <label>Precio Alta Calidad ($):</label>
+            <input type="number" id="edit-alta">
+        </div>
+        <div class="campo-edit">
+            <label>Precio Mediana Calidad ($):</label>
+            <input type="number" id="edit-media">
+        </div>
+        <div class="campo-edit">
+            <label>Precio Baja Calidad ($):</label>
+            <input type="number" id="edit-baja">
+        </div>
+        <div class="campo-edit">
+            <label>Cambiar Imagen (Opcional):</label>
+            <input type="file" id="edit-imagen" accept="image/*">
+        </div>
+        
+        <div class="botones-formulario">
+            <button onclick="guardarCambios()" class="boton-guardar">Guardar Cambios</button>
+            <button onclick="window.location.href='panel-editor.html'" class="boton-cancelar">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        const parametrosUrl = new URLSearchParams(window.location.search);
+        const idCafe = parseInt(parametrosUrl.get('id'));
+
+        let listaCafes = JSON.parse(localStorage.getItem('misCafes')) || [];
+        let cafeActual = listaCafes.find(c => c.id === idCafe);
+
+        // Cargar datos en el formulario
+        if (cafeActual) {
+            document.getElementById('edit-nombre').value = cafeActual.nombre;
+            document.getElementById('edit-descripcion').value = cafeActual.descripcion || "";
+            document.getElementById('edit-alta').value = cafeActual.precioAlta || "";
+            document.getElementById('edit-media').value = cafeActual.precioMedia || "";
+            document.getElementById('edit-baja').value = cafeActual.precioBaja || "";
+        } else {
+            alert("Café no encontrado");
+            window.location.href = 'panel-editor.html';
+        }
+
+        function guardarCambios() {
+            cafeActual.nombre = document.getElementById('edit-nombre').value;
+            cafeActual.descripcion = document.getElementById('edit-descripcion').value;
+            cafeActual.precioAlta = document.getElementById('edit-alta').value;
+            cafeActual.precioMedia = document.getElementById('edit-media').value;
+            cafeActual.precioBaja = document.getElementById('edit-baja').value;
+
+            const archivoInput = document.getElementById('edit-imagen');
+
+            if (archivoInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    cafeActual.imagen = e.target.result;
+                    finalizarGuardado();
+                };
+                reader.readAsDataURL(archivoInput.files[0]);
+            } else {
+                finalizarGuardado();
+            }
+        }
+
+        function finalizarGuardado() {
+            const index = listaCafes.findIndex(c => c.id === idCafe);
+            listaCafes[index] = cafeActual;
+            localStorage.setItem('misCafes', JSON.stringify(listaCafes));
+            
+            alert("¡Cambios guardados con éxito!");
+            window.location.href = 'panel-editor.html'; // Regresa al panel
+        }
+    </script>
+</body>
+</html>

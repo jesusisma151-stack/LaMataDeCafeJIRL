@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión - Editor</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="cafe.css">
+</head>
+<body class="pagina-login">
+
+    <div class="tarjeta-login tarjeta-editor">
+        
+        <h2 class="titulo-editor">Hola usuario editor</h2>
+        
+        <!-- Le pusimos id="formulario-login" para identificarlo -->
+        <form class="formulario-editor" id="formulario-login">
+            
+            <div class="campo-fila">
+                <label for="usuario">Ingrese su usuario</label>
+                <!-- id="usuario" -->
+                <input type="text" id="usuario" name="usuario" required>
+            </div>
+            
+            <div class="campo-fila">
+                <label for="contrasena">Ingrese su contraseña</label>
+                <!-- id="contrasena" -->
+                <input type="password" id="contrasena" name="contrasena" required>
+            </div>
+            
+            <div class="contenedor-boton-ingresar">
+                <!-- CORREGIDO: type="submit" -->
+                <button type="submit" class="boton-ingresar">Ingresar</button>
+            </div>
+            
+        </form>
+    </div>
+
+    <!-- AQUÍ ESTÁ LA MAGIA: Script para validar el usuario -->
+    <script>
+        document.getElementById('formulario-login').addEventListener('submit', function(evento) {
+            // Esto evita que la página se recargue al presionar el botón
+            evento.preventDefault(); 
+
+            // Capturamos lo que el usuario escribió
+            const user = document.getElementById('usuario').value;
+            const pass = document.getElementById('contrasena').value;
+
+            // Validamos las credenciales (puedes cambiarlas aquí)
+            if (user === 'editor' && pass === '1234') {
+                // CORREGIDO: Ahora manda a la página del panel del editor
+                window.location.href = 'Editor-decicion.html'; 
+            } else {
+                // Si es incorrecto, mostramos una alerta
+                alert('Usuario o contraseña incorrectos. ');
+            }
+        });
+    </script>
+
+</body>
+</html>

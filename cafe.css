@@ -1,0 +1,1428 @@
+/* =========================================
+   1. RESETEO BÁSICO
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased; /* Hace que las letras se vean más nítidas */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================
+   2. PÁGINA DE INICIO DE SESIÓN (Centrado y Mejorado)
+   ========================================= */
+body.pagina-login {
+    background-color: #fbe39d; /* Fondo crema */
+    font-family: 'Poppins', sans-serif;
+    
+    /* ESTO ES LO QUE CENTRA TODO PERFECTAMENTE */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+    width: 100vw;
+}
+
+.tarjeta-login {
+    background-color: #bf8b00; /* Mostaza */
+    width: 80%; 
+    max-width: 800px; 
+    height: 500px; 
+    border-radius: 40px; /* Cuadro bien redondeado */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px; 
+    
+    /* Sombra sutil para que resalte del fondo */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.titulo {
+    color: #111111; /* Un negro un poco más suave, no tan duro */
+    font-size: 4.5rem; 
+    font-weight: 800; /* Letra más gruesa y llamativa */
+    text-align: center;
+    line-height: 1.1; 
+    letter-spacing: -1.5px; /* Junta un poquito las letras para que se vea moderno */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Sombra en la letra para darle relieve */
+}
+
+/* --- CONTENEDOR DE LOS DOS BOTONES --- */
+.contenedor-botones-login {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Separación entre los dos botones */
+    width: 100%;
+    max-width: 600px;
+    flex-wrap: wrap;
+}
+
+/* --- ESTILO DE LOS BOTONES --- */
+.boton-acceso {
+    background-color: #b8722c; /* Color cobre/marrón */
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400; /* Letra un poco más delgada como en la imagen */
+    padding: 12px 30px; 
+    border-radius: 50px; /* Botón tipo píldora */
+    border: 1px solid #3b5d6a; /* Borde delgado azul/verdoso de la imagen */
+    text-align: center;
+    transition: all 0.2s ease;
+    flex: 1; /* Hace que ambos botones midan lo mismo */
+    max-width: 230px; /* Ancho máximo para que no se estiren demasiado */
+}
+
+.boton-acceso:hover {
+    background-color: #d1863f;
+    transform: scale(1.05); /* Un pequeño efecto al pasar el ratón */
+}
+
+.boton-acceso:active {
+    transform: scale(0.98);
+}
+
+/* =========================================
+   3. PÁGINA DEL CAFÉ (JIRL)
+   ========================================= */
+body.pagina-cafe {
+    background-color: #fae6a1; /* <-- ESTE ES EL COLOR CAFÉ ACTUAL */
+    font-family: 'Roboto', sans-serif; 
+    color: #000000;
+}
+
+.cabecera {
+    background-color: #3a5a25; 
+    display: flex;
+    align-items: center;
+    padding: 10px 40px;
+    position: relative;
+}
+
+.logo-contenedor {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 160px;
+}
+
+.logo {
+    width: 100%;
+    display: block;
+}
+
+.titulos-cabecera {
+    flex-grow: 1;
+    text-align: center;
+    color: #ffffff;
+    font-family: 'Playfair Display', serif; 
+}
+
+.titulos-cabecera h1 {
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.titulos-cabecera h2 {
+    font-size: 4rem;
+    font-weight: 600;
+}
+
+.contenedor-principal {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 40px;
+}
+
+.columna-texto {
+    flex: 2; 
+    min-width: 300px;
+}
+
+.columna-texto h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.columna-texto p {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    text-align: justify; 
+}
+
+.espaciado-titulo {
+    margin-top: 40px; 
+}
+
+.columna-imagenes {
+    flex: 1; 
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center; 
+}
+
+.img-cafe {
+    width: 100%;
+    max-width: 200px; 
+    height: auto;
+    object-fit: cover;
+}
+
+.contenedor-botones {
+    display: flex;
+    justify-content: center;
+    gap: 150px; 
+    padding: 40px 20px 60px 20px;
+}
+
+.boton-naranja {
+    background-color: #c87a2a; 
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    padding: 15px 50px;
+    border-radius: 10px; 
+    border: 2px solid #5a3a10; 
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.boton-naranja:hover {
+    background-color: #a8621d;
+}
+
+.boton-naranja:active {
+    transform: scale(0.98);
+}
+
+/* =========================================
+   4. DISEÑO ADAPTABLE (RESPONSIVE)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Login en celular */
+    .tarjeta-login {
+        width: 90%;
+        height: 400px;
+        gap: 30px;
+        border-radius: 25px; 
+    }
+    .titulo {
+        font-size: 3rem;
+    }
+    .boton-inicio {
+        font-size: 1.3rem;
+        padding: 12px 50px;
+        box-shadow: 0px 4px 0px #2b2b2b;
+    }
+
+    /* Café en celular */
+    .cabecera {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+    }
+    .logo-contenedor {
+        width: 120px;
+    }
+    .titulos-cabecera h1 {
+        font-size: 2.5rem;
+    }
+    .titulos-cabecera h2 {
+        font-size: 3rem;
+    }
+    .contenedor-principal {
+        padding: 20px;
+        flex-direction: column-reverse; 
+    }
+    .columna-texto p {
+        font-size: 1.1rem;
+        text-align: left; 
+    }
+    .contenedor-botones {
+        flex-direction: column; 
+        gap: 20px;
+        align-items: center;
+        padding: 20px;
+    }
+    .boton-naranja {
+        width: 80%;
+        max-width: 300px;
+        font-size: 1.3rem;
+    }
+}
+
+
+
+
+/* =========================================
+   5. PÁGINA DE CALIDAD DE CAFÉ
+   ========================================= */
+body.pagina-calidad {
+    background-color: #f2ead0; /* Fondo amarillo pálido de la imagen */
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Cabecera Verde */
+.header-calidad {
+    background-color: #5e9e1b; /* Verde brillante */
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.header-calidad h1 {
+    color: #ffffff;
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Contenedor Principal */
+.contenedor-calidad {
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* Separación entre cada fila */
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    flex-grow: 1;
+}
+
+/* Cada Fila */
+.fila-calidad {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Título de cada fila */
+.titulo-calidad {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #000000;
+    flex: 1; /* Ocupa el espacio de la izquierda */
+    text-align: center;
+}
+
+/* Botón de Información */
+.boton-info {
+    background-color: #c87a2a; /* Color cobre */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.4rem;
+    padding: 12px 35px;
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    border: 2px solid #5a3a10;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    min-width: 180px; /* Para que todos los botones midan igual */
+    text-align: center;
+}
+
+.boton-info:hover {
+    background-color: #a8621d;
+}
+
+.boton-info:active {
+    transform: scale(0.98);
+}
+
+/* Imágenes */
+.img-calidad {
+    width: 240px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 20px; /* Bordes bien redondeados */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra suave */
+}
+
+/* Cuadro de Notas de abajo */
+.nota-flotante {
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 5px 15px;
+    border-radius: 5px;
+    width: fit-content;
+    margin: 0 auto 20px auto;
+    font-size: 1rem;
+}
+
+/* --- Adaptación para Celulares --- */
+@media (max-width: 768px) {
+    .header-calidad h1 {
+        font-size: 2.5rem;
+    }
+
+    .contenedor-calidad {
+        padding: 30px 20px;
+        gap: 30px;
+    }
+
+    /* En celular, apilamos el título, el botón y la imagen uno debajo del otro */
+    .fila-calidad {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        background-color: rgba(255, 255, 255, 0.4); /* Fondo sutil para diferenciar las filas */
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .titulo-calidad {
+        font-size: 2rem;
+    }
+
+    .img-calidad {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+    }
+}
+
+
+
+/* =========================================
+   6. PÁGINA DE TIEMPO DE COSECHA
+   ========================================= */
+body.pagina-cosecha {
+    background-color: #f2ead0; /* Mismo fondo amarillo pálido */
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Cabecera Verde */
+.header-cosecha {
+    background-color: #5e9e1b; /* Verde brillante */
+    text-align: center;
+    padding: 25px 20px;
+}
+
+.header-cosecha h1 {
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+}
+
+/* Contenedor Principal */
+.contenedor-cosecha {
+    display: flex;
+    flex-direction: column;
+    gap: 60px; /* Separación entre la sección 1 y 2 */
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 40px;
+    width: 100%;
+}
+
+/* Filas (Secciones) */
+.fila-cosecha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px; /* Separación entre el texto y la imagen */
+}
+
+/* ESTA ES LA MAGIA PARA LA SEGUNDA SECCIÓN */
+/* Invierte el orden: la imagen se va a la izquierda y el texto a la derecha */
+.fila-cosecha.reversa {
+    flex-direction: row-reverse;
+}
+
+/* Columna de Texto */
+.texto-cosecha {
+    flex: 1; /* Ocupa el espacio disponible */
+    min-width: 300px;
+}
+
+.texto-cosecha h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.texto-cosecha p {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* Columna de Imagen */
+.imagen-cosecha {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.img-cosecha {
+    width: 100%;
+    max-width: 325px; /* Tamaño máximo de las imágenes */
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Sombra como en tu diseño */
+}
+
+/* Ajuste especial para la ilustración de abajo (por si tiene fondo blanco) */
+.ilustracion {
+    border-radius: 30px; 
+}
+
+/* --- Adaptación para Celulares --- */
+@media (max-width: 900px) {
+    .header-cosecha h1 {
+        font-size: 2.5rem;
+    }
+
+    .contenedor-cosecha {
+        padding: 20px;
+        gap: 40px;
+    }
+
+    /* En celular, todas las filas se vuelven columna (Texto arriba, Imagen abajo) */
+    .fila-cosecha,
+    .fila-cosecha.reversa {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .texto-cosecha p {
+        font-size: 1.1rem;
+        text-align: left; /* Quitamos la justificación en móviles */
+    }
+
+    .img-cosecha {
+        max-width: 100%;
+    }
+}
+
+
+/* =========================================
+   NUEVA PÁGINA: LOGIN EDITOR
+   ========================================= */
+
+/* Ajustes a la tarjeta para que quepa el formulario */
+.tarjeta-login.tarjeta-editor {
+    height: auto;
+    padding: 50px 60px;
+    gap: 30px;
+}
+
+/* Título "Hola usuario editor" */
+.titulo-editor {
+    color: #111111;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Contenedor del formulario */
+.formulario-editor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Separación entre las filas */
+}
+
+/* Filas del formulario (Label + Input) */
+.campo-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Textos de las etiquetas (Ingrese su...) */
+.campo-fila label {
+    color: #000000;
+    font-size: 1.4rem;
+    font-weight: 700;
+    flex: 1; /* Ocupa el espacio de la izquierda */
+}
+
+/* Cajas de texto (Inputs) */
+.campo-fila input {
+    flex: 1; /* Ocupa el espacio de la derecha */
+    max-width: 300px; /* Ancho máximo para que no se estiren demasiado */
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    border: none; /* Sin borde, como en la imagen */
+    outline: none;
+    background-color: #ffffff; /* Fondo blanco puro */
+}
+
+/* Contenedor del botón para mandarlo a la derecha */
+.contenedor-boton-ingresar {
+    display: flex;
+    justify-content: flex-end; /* Alinea el botón a la derecha */
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Estilo del botón "Ingresar" */
+.boton-ingresar {
+    background-color: #f4cca1; /* Color durazno claro de la imagen */
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 10px 40px;
+    border: 1px solid #000000; /* Borde negro delgado */
+    border-radius: 6px; /* Bordes ligeramente redondeados */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-ingresar:hover {
+    background-color: #e0b587; /* Un tono un poco más oscuro al pasar el ratón */
+}
+
+/* --- Adaptación para Celulares --- */
+@media (max-width: 768px) {
+    .tarjeta-login.tarjeta-editor {
+        padding: 30px 20px;
+    }
+
+    .titulo-editor {
+        font-size: 1.8rem;
+    }
+
+    /* En celular, la etiqueta queda arriba y el input abajo */
+    .campo-fila {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .campo-fila label {
+        font-size: 1.2rem;
+    }
+
+    .campo-fila input {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* El botón se centra en celular */
+    .contenedor-boton-ingresar {
+        justify-content: center;
+    }
+    
+    .boton-ingresar {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   7. PÁGINA PANEL DE EDITOR
+   ========================================= */
+body.pagina-editor {
+    background-color: #fcf1c8; /* Fondo crema claro */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cabecera Verde Oscuro */
+.header-editor {
+    background-color: #2d4a1e; /* Verde oscuro de la imagen */
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 0; /* Sin padding a la izquierda para que el logo pegue al borde */
+    height: 180px; /* Altura fija para la cabecera */
+}
+
+/* Contenedor del Logo (Fondo blanco) */
+.logo-editor-contenedor {
+    background-color: #ffffff;
+    height: 100%;
+    width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.logo-editor {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+}
+
+/* Textos dentro de la cabecera */
+.textos-editor {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 40px;
+    color: #ffffff;
+    font-family: 'Playfair Display', serif;
+}
+
+.textos-editor h1 {
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    text-align: center; /* Centrado como en la imagen */
+}
+
+.textos-editor h2 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Contenedor principal de los botones */
+.contenedor-botones-editor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 150px; /* Separación grande entre los dos botones */
+    flex-grow: 1; /* Ocupa el resto de la pantalla */
+    padding: 40px;
+}
+
+/* Estilo de los Botones Grandes */
+.boton-editor {
+    background: linear-gradient(to bottom, #fce592, #e8c66e); /* Degradado amarillo */
+    color: #000000;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    padding: 30px 50px;
+    border-radius: 15px; /* Bordes redondeados */
+    border: 2px solid #4a3b18; /* Borde marrón oscuro */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25); /* Sombra */
+    text-align: center;
+    min-width: 300px;
+    transition: all 0.2s ease;
+}
+
+.boton-editor:hover {
+    background: linear-gradient(to bottom, #fdf0b4, #edcf81); /* Un poco más brillante al pasar el ratón */
+    transform: translateY(-2px); /* Pequeño salto */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.boton-editor:active {
+    transform: translateY(2px);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Adaptación para Celulares --- */
+@media (max-width: 900px) {
+    .header-editor {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .logo-editor-contenedor {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .textos-editor {
+        padding-left: 0;
+    }
+
+    .textos-editor h1 {
+        font-size: 2.2rem;
+    }
+
+    .textos-editor h2 {
+        font-size: 1.6rem;
+        text-align: center;
+    }
+
+    .contenedor-botones-editor {
+        flex-direction: column;
+        gap: 30px;
+        padding: 40px 20px;
+    }
+
+    .boton-editor {
+        width: 100%;
+        max-width: 350px;
+        font-size: 1.2rem;
+        padding: 20px;
+    }
+}
+
+/* =========================================
+   ESTILOS EXTRA PARA EL EDITOR Y LISTAS
+   ========================================= */
+
+/* Alineación para el editor (icono + texto) */
+.columna-nombre {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Botón de basura */
+.boton-eliminar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #000;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.boton-eliminar:hover {
+    color: #d93025; /* Rojo al pasar el ratón */
+}
+
+/* Botón grande de agregar */
+.boton-agregar {
+    background-color: #8a4516; /* Marrón oscuro */
+    color: #ffffff;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.boton-agregar:hover {
+    background-color: #6b340f;
+}
+
+/* Ajustes para cuando los botones de agregar están dentro de la lista (opcional) */
+.fila-calidad .boton-agregar {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* =========================================
+   FORMULARIO MODAL PARA AGREGAR CAFÉ
+   ========================================= */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-contenido {
+    background-color: #fce49c; /* Fondo amarillo pálido */
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid #5a3a10;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.modal-contenido h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.modal-contenido label {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.modal-contenido input {
+    padding: 10px;
+    border: 1px solid #5a3a10;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.boton-guardar, .boton-cancelar {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.boton-guardar {
+    background-color: #689f1b; /* Verde */
+    color: white;
+}
+
+.boton-cancelar {
+    background-color: #c87a2a; /* Cobre */
+    color: white;
+}
+
+/* =========================================
+   PÁGINA DE INFORMACIÓN DEL CAFÉ (DETALLE)
+   ========================================= */
+body.pagina-info-cafe {
+    background-color: #fce49c; /* Fondo amarillo claro */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#vista-info, #formulario-edicion {
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Caja del Título (Dorada) */
+.tarjeta-titulo-info {
+    background-color: #e0a526; /* Dorado/Mostaza */
+    border: 2px solid #5a3a10; /* Borde marrón oscuro */
+    border-radius: 15px;
+    padding: 15px 30px;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto 40px auto;
+    min-width: 300px;
+}
+
+.tarjeta-titulo-info h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #000;
+    margin: 0;
+}
+
+/* Contenido Superior (Texto izquierda, Imagen derecha) */
+.contenido-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.texto-descripcion {
+    flex: 1;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #222;
+    text-align: justify;
+    margin: 0;
+}
+
+.imagen-derecha {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Lista de Precios */
+.lista-precios {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.fila-precio {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px;
+    padding-left: 50px;
+}
+
+.fila-precio h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+    width: 250px;
+}
+
+.caja-precio {
+    background-color: #c87a2a; /* Marrón cobre */
+    color: #fff;
+    padding: 8px 25px;
+    border-radius: 8px;
+    border: 2px solid #5a3a10;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Botones de Acción (Editar / Volver) */
+.contenedor-boton-editar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.boton-editar, .boton-volver {
+    background-color: #2d4a1e; /* Verde oscuro */
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.boton-volver {
+    background-color: #c87a2a;
+}
+
+.boton-editar:hover { background-color: #1e3313; }
+.boton-volver:hover { background-color: #a8621d; }
+
+/* Formulario de Edición */
+.formulario-oculto {
+    display: none;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.formulario-oculto h2 {
+    text-align: center;
+    margin-top: 0;
+    color: #2d4a1e;
+}
+
+.campo-edit {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.campo-edit label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.campo-edit input, .campo-edit textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+.botones-formulario {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.boton-guardar {
+    flex: 1;
+    background-color: #689f1b;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.boton-cancelar {
+    flex: 1;
+    background-color: #d93025;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contenido-superior {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .imagen-derecha {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .fila-precio {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-left: 0;
+    }
+}
+
+/* Contenedor del formulario de edición exclusivo */
+.formulario-edicion-contenedor {
+    background-color: #fce49c;
+    padding: 40px;
+    border-radius: 15px;
+    border: 2px solid #5a3a10;
+    max-width: 600px;
+    margin: 50px auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.formulario-edicion-contenedor h2 {
+    text-align: center;
+    color: #2d4a1e;
+    margin-top: 0;
+    font-family: 'Poppins', sans-serif;
+}
+/* =========================================
+   MODALES (VENTANAS EMERGENTES DEL EDITOR)
+   ========================================= */
+.modal {
+    display: none; 
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow-y: auto; /* Por si la pantalla es pequeña */
+}
+
+.modal-contenido {
+    background-color: #fce49c; 
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid #5a3a10;
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.modal-contenido h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #2d4a1e;
+}
+
+.modal-contenido label {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.modal-contenido input, .modal-contenido textarea {
+    padding: 10px;
+    border: 1px solid #5a3a10;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.modal-botones {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.boton-guardar, .boton-cancelar {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.boton-guardar { background-color: #689f1b; color: white; }
+.boton-cancelar { background-color: #c87a2a; color: white; }
+
+/* =========================================
+   PÁGINA DE INFORMACIÓN (PÚBLICA)
+   ========================================= */
+body.pagina-info-cafe {
+    background-color: #fce49c; 
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#vista-info {
+    width: 100%;
+    max-width: 900px;
+}
+
+.tarjeta-titulo-info {
+    background-color: #e0a526; 
+    border: 2px solid #5a3a10; 
+    border-radius: 15px;
+    padding: 15px 30px;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto 40px auto;
+    min-width: 300px;
+}
+
+.tarjeta-titulo-info h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #000;
+    margin: 0;
+}
+
+.contenido-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.texto-descripcion {
+    flex: 1;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: #222;
+    text-align: justify;
+    margin: 0;
+}
+
+.imagen-derecha {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.lista-precios {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.fila-precio {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px;
+    padding-left: 50px;
+}
+
+.fila-precio h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+    width: 250px;
+}
+
+.caja-precio {
+    background-color: #c87a2a; 
+    color: #fff;
+    padding: 8px 25px;
+    border-radius: 8px;
+    border: 2px solid #5a3a10;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.boton-volver {
+    background-color: #c87a2a;
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.boton-volver:hover {
+    background-color: #a8621d;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 768px) {
+    .contenido-superior {
+        flex-direction: column;
+        align-items: center;
+    }
+    .imagen-derecha {
+        width: 100%;
+        max-width: 300px;
+    }
+    .fila-precio {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-left: 0;
+    }
+}
+
+/* =========================================
+   PÁGINA DE TABLAS DE VENTAS
+   ========================================= */
+.contenedor-tabla-ventas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+/* La tabla en sí */
+.tabla-compras {
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 900px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra sutil */
+}
+
+/* Encabezados (Naranja) */
+.tabla-compras th {
+    background-color: #e57c23; /* Naranja */
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #000000;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+/* Celdas (Durazno pálido) */
+.tabla-compras td {
+    background-color: #f9e4dd; /* Color durazno de la imagen */
+    border: 1px solid #000000;
+    padding: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    height: 25px; /* Altura mínima para las filas vacías */
+}
+
+/* Botones debajo de la tabla */
+.botones-tabla {
+    display: flex;
+    gap: 100px; /* Separación entre los botones */
+    justify-content: center;
+    width: 100%;
+}
+
+/* Estilo de los botones naranjas de la tabla */
+.boton-naranja-tabla {
+    background: linear-gradient(to bottom, #f17e1c, #d86000); /* Degradado naranja */
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    padding: 12px 50px;
+    border-radius: 10px;
+    border: 2px solid #4a3b18;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.boton-naranja-tabla:hover {
+    background: linear-gradient(to bottom, #ff8c2e, #e86b00);
+    transform: translateY(-2px);
+}
+
+.boton-naranja-tabla:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Estilos para el modal de lista de edición */
+.lista-editar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.item-lista-editar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-mini {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+}
+.btn-mini:hover { opacity: 0.7; }

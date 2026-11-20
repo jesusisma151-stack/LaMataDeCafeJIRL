@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cafe.css">
+</head>
+<body class="pagina-info-cafe">
+
+    <div id="vista-info">
+        <div class="tarjeta-titulo-info">
+            <h1 id="nombre-cafe">Cargando...</h1>
+        </div>
+
+        <div class="contenido-superior">
+            <p id="descripcion-cafe" class="texto-descripcion"></p>
+            <img id="imagen-cafe" src="" alt="Café" class="imagen-derecha">
+        </div>
+
+        <div class="lista-precios">
+            <div class="fila-precio">
+                <h3>Alta calidad</h3>
+                <div class="caja-precio" id="precio-alta">Precio: $ 0</div>
+            </div>
+            <div class="fila-precio">
+                <h3>Mediana calidad</h3>
+                <div class="caja-precio" id="precio-media">Precio: $ 0</div>
+            </div>
+            <div class="fila-precio">
+                <h3>Baja calidad</h3>
+                <div class="caja-precio" id="precio-baja">Precio: $ 0</div>
+            </div>
+        </div>
+
+        <div class="contenedor-boton-editar" style="justify-content: center;">
+            <a href="calidad.html" class="boton-volver">Volver a la lista</a>
+        </div>
+    </div>
+
+    <script>
+        const parametrosUrl = new URLSearchParams(window.location.search);
+        const idCafe = parseInt(parametrosUrl.get('id'));
+
+        let listaCafes = JSON.parse(localStorage.getItem('misCafes')) || [];
+        let cafeActual = listaCafes.find(c => c.id === idCafe);
+
+        function renderizarVista() {
+            if (!cafeActual) {
+                document.getElementById('nombre-cafe').innerText = "Café no encontrado";
+                document.getElementById('descripcion-cafe').innerText = "Vuelve a la lista e intenta de nuevo.";
+                return;
+            }
+            
+            document.getElementById('nombre-cafe').innerText = cafeActual.nombre;
+            
+            // Si el editor no puso descripción, mostramos un mensaje
+            document.getElementById('descripcion-cafe').innerText = cafeActual.descripcion || "El editor aún no ha agregado una descripción para este café.";
+            
+            document.getElementById('imagen-cafe').src = cafeActual.imagen;
+            
+            // Si el editor no puso precios, mostramos guiones
+            document.getElementById('precio-alta').innerText = `Precio: $ ${cafeActual.precioAlta || '--'}`;
+            document.getElementById('precio-media').innerText = `Precio: $ ${cafeActual.precioMedia || '--'}`;
+            document.getElementById('precio-baja').innerText = `Precio: $ ${cafeActual.precioBaja || '--'}`;
+        }
+
+        renderizarVista();
+    </script>
+</body>
+</html>

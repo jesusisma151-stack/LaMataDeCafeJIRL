@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablas de Ventas - JIRL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cafe.css">
+</head>
+<body class="pagina-editor">
+
+    <!-- Cabecera Verde -->
+    <header class="header-editor">
+        <div class="logo-editor-contenedor">
+            <a href="panel-editor.html">
+                <img src="logo-cafe.jpeg" alt="Logo JIRL" class="logo-editor">
+            </a>
+        </div>
+        <div class="textos-editor">
+            <h1>Bienvenido Usuario Editor</h1>
+            <h2>La mata de café JIRL</h2>
+        </div>
+    </header>
+
+    <!-- Contenedor de la Tabla -->
+    <main class="contenedor-tabla-ventas">
+        <table class="tabla-compras">
+            <thead>
+                <tr>
+                    <th>No. Compra</th>
+                    <th>Cantidad<br>comprada</th>
+                    <th>Costo</th>
+                    <th>Hora de<br>compra</th>
+                    <th>Fecha de<br>compra</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-tabla">
+                <!-- Aquí JavaScript inyectará las filas -->
+            </tbody>
+        </table>
+
+        <!-- Botones debajo de la tabla -->
+        <div class="botones-tabla">
+            <button onclick="abrirModal('agregar')" class="boton-naranja-tabla">Agregar</button>
+            <button onclick="abrirModal('editar')" class="boton-naranja-tabla">Editar o<br>eliminar</button>
+        </div>
+    </main>
+
+    <!-- MODAL PARA AGREGAR/EDITAR COMPRA -->
+    <div id="modal-compra" class="modal">
+        <div class="modal-contenido">
+            <h3 id="titulo-modal">Agregar Compra</h3>
+            
+            <!-- Este div mostrará el ID, fecha y hora cuando se edite -->
+            <div id="info-automatica" style="display: none; background: #e0a526; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-weight: bold;">
+                <!-- Contenido dinámico -->
+            </div>
+
+            <label>Cantidad:</label>
+            <input type="number" id="compra-cantidad" placeholder="Ej. 50">
+            
+            <label>Costo Total ($):</label>
+            <input type="number" id="compra-costo" placeholder="Ej. 150">
+            
+            <div class="modal-botones">
+                <button onclick="guardarCompra()" class="boton-guardar">Guardar</button>
+                <button onclick="cerrarModal()" class="boton-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA SELECCIONAR QUÉ EDITAR/ELIMINAR -->
+    <div id="modal-lista-editar" class="modal">
+        <div class="modal-contenido">
+            <h3>Seleccione una compra</h3>
+            <div id="lista-compras-editar" class="lista-editar">
+                <!-- Se llena con JS -->
+            </div>
+            <div class="modal-botones" style="margin-top: 20px;">
+                <button onclick="document.getElementById('modal-lista-editar').style.display='none'" class="boton-cancelar">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cargar datos
+        let compras = JSON.parse(localStorage.getItem('comprasJIRL')) || [];
+        let indexEditando = -1; 
+
+        // Función para obtener la fecha y hora actual formateada
+        function obtenerFechaHoraActual() {
+            const ahora = new Date();
+            const fecha = ahora.toLocaleDateString('es-MX'); // Formato: DD/MM/AAAA
+            const hora = ahora.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }); // Formato: HH:MM
+            return { fecha, hora };
+        }
+
+        // 1. Función para dibujar la tabla
+        function renderizarTabla() {
+            const cuerpo = document.getElementById('cuerpo-tabla');
+            cuerpo.innerHTML = '';
+
+            // Si no hay compras, dibujamos 4 filas vacías
+            if (compras.length === 0) {
+                for(let i=0; i<4; i++) {
+                    cuerpo.innerHTML += `<tr><td></td><td></td><td></td><td></td><td></td></tr>`;
+                }
+                return;
+            }
+
+            // Si hay compras, las dibujamos. El ID es simplemente el índice + 1.
+            compras.forEach((compra, index) => {
+                cuerpo.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td> <!-- ID dinámico -->
+                        <td>${compra.cantidad}</td>
+                        <td>$${compra.costo}</td>
+                        <td>${compra.hora}</td>
+                        <td>${compra.fecha}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // 2. Abrir el modal
+        function abrirModal(tipo) {
+            if (tipo === 'agregar') {
+                indexEditando = -1;
+                document.getElementById('titulo-modal').innerText = "Agregar Compra";
+                document.getElementById('info-automatica').style.display = 'none'; // Ocultar info extra
+                
+                // Limpiar campos
+                document.getElementById('compra-cantidad').value = '';
+                document.getElementById('compra-costo').value = '';
+                
+                document.getElementById('modal-compra').style.display = 'flex';
+            } 
+            else if (tipo === 'editar') {
+                const listaContainer = document.getElementById('lista-compras-editar');
+                listaContainer.innerHTML = '';
+
+                if (compras.length === 0) {
+                    listaContainer.innerHTML = '<p>No hay compras registradas.</p>';
+                } else {
+                    compras.forEach((compra, index) => {
+                        listaContainer.innerHTML += `
+                            <div class="item-lista-editar">
+                                <span><b>No. ${index + 1}</b> - ${compra.cantidad} unds - $${compra.costo}</span>
+                                <div>
+                                    <button onclick="seleccionarEditar(${index})" class="btn-mini btn-editar-mini">✏️</button>
+                                    <button onclick="eliminarCompra(${index})" class="btn-mini btn-eliminar-mini">🗑️</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                document.getElementById('modal-lista-editar').style.display = 'flex';
+            }
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-compra').style.display = 'none';
+        }
+
+        // 3. Guardar
+        function guardarCompra() {
+            const nuevaCantidad = document.getElementById('compra-cantidad').value;
+            const nuevoCosto = document.getElementById('compra-costo').value;
+
+            if(!nuevaCantidad || !nuevoCosto) {
+                alert("Por favor, llene todos los campos.");
+                return;
+            }
+
+            if (indexEditando === -1) {
+                // ES NUEVA: Generamos fecha y hora automáticamente
+                const { fecha, hora } = obtenerFechaHoraActual();
+                compras.push({
+                    cantidad: nuevaCantidad,
+                    costo: nuevoCosto,
+                    hora: hora,
+                    fecha: fecha
+                });
+            } else {
+                // ES EDICIÓN: Mantenemos la fecha y hora originales, solo actualizamos cantidad y costo
+                compras[indexEditando].cantidad = nuevaCantidad;
+                compras[indexEditando].costo = nuevoCosto;
+            }
+
+            localStorage.setItem('comprasJIRL', JSON.stringify(compras));
+            renderizarTabla();
+            cerrarModal();
+        }
+
+        // 4. Seleccionar para Editar
+        function seleccionarEditar(index) {
+            indexEditando = index;
+            const compra = compras[index];
+            
+            document.getElementById('modal-lista-editar').style.display = 'none';
+            document.getElementById('titulo-modal').innerText = "Editar Compra";
+            
+            // Mostrar la info automática para que el usuario sepa qué está editando
+            const infoDiv = document.getElementById('info-automatica');
+            infoDiv.style.display = 'block';
+            infoDiv.innerHTML = `No. Compra: ${index + 1}<br>${compra.fecha} - ${compra.hora}`;
+            
+            // Solo cargamos cantidad y costo
+            document.getElementById('compra-cantidad').value = compra.cantidad;
+            document.getElementById('compra-costo').value = compra.costo;
+
+            document.getElementById('modal-compra').style.display = 'flex';
+        }
+
+        // 5. Eliminar
+        function eliminarCompra(index) {
+            if(confirm("¿Seguro que deseas eliminar esta compra?")) {
+                compras.splice(index, 1); // Elimina el registro
+                localStorage.setItem('comprasJIRL', JSON.stringify(compras));
+                renderizarTabla(); // Vuelve a dibujar la tabla (los números se reajustan solos)
+                abrirModal('editar'); // Refrescar la lista de edición
+            }
+        }
+
+        // Iniciar
+        renderizarTabla();
+    </script>
+</body>
+</html>

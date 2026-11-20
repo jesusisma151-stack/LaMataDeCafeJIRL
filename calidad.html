@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de Café</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cafe.css">
+</head>
+<body class="pagina-calidad">
+
+    <header class="header-calidad">
+        <h1>Tipos de café</h1>
+    </header>
+
+    <main class="contenedor-calidad" id="contenedor-publico">
+        <!-- Aquí JavaScript inyectará los cafés guardados -->
+    </main>
+
+    <script>
+        // Datos por defecto si el editor no ha guardado nada aún
+        const cafesPorDefecto = [
+            { id: 1, nombre: 'Café cereza', imagen: 'cafe-cereza.webp' },
+            { id: 2, nombre: 'Café robusta', imagen: 'cafe-robusta.webp' },
+            { id: 3, nombre: 'Café ibérica', imagen: 'cafe-iberica.webp' },
+            { id: 4, nombre: 'Café excelsa', imagen: 'cafe-excelsa.webp' }
+        ];
+
+        // Leer lo que el Editor guardó en la memoria del navegador
+        let listaCafes = JSON.parse(localStorage.getItem('misCafes')) || cafesPorDefecto;
+
+        function renderizarPublico() {
+            const contenedor = document.getElementById('contenedor-publico');
+            contenedor.innerHTML = ''; // Limpiar la pantalla antes de dibujar
+
+            listaCafes.forEach((cafe) => {
+                const fila = document.createElement('div');
+                fila.className = 'fila-calidad';
+                
+                // AQUÍ ESTÁ LA MAGIA: Pasamos el ID del café en el enlace (?id=...)
+                fila.innerHTML = `
+                    <h2 class="titulo-calidad">${cafe.nombre}</h2>
+                    <a href="info-cafe.html?id=${cafe.id}" class="boton-info">Información</a>
+                    <img src="${cafe.imagen}" alt="${cafe.nombre}" class="img-calidad">
+                `;
+                contenedor.appendChild(fila);
+            });
+        }
+
+        // Iniciar la página
+        renderizarPublico();
+    </script>
+</body>
+</html>
