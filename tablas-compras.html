@@ -84,12 +84,43 @@
         </div>
     </div>
 
-    <script>
-        // Cargar datos
-        let compras = JSON.parse(localStorage.getItem('comprasJIRL')) || [];
-        let indexEditando = -1; 
+    <script type="module">
+        // 1. Importar Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue, push, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Función para obtener la fecha y hora actual formateada
+        // 2. Configuración
+        const firebaseConfig = {
+            apiKey: "AIzaSyArLu0w7UVtuGufLfE1K7nLGD8NNScSPoY",
+            authDomain: "lamatadecafejirl.firebaseapp.com",
+            databaseURL: "https://lamatadecafejirl-default-rtdb.firebaseio.com",
+            projectId: "lamatadecafejirl",
+            storageBucket: "lamatadecafejirl.firebasestorage.app",
+            messagingSenderId: "755151796533",
+            appId: "1:755151796533:web:7787740e611d5aaaba347c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        let compras = [];
+        let keyEditando = null; 
+
+        // 3. Escuchar los datos de ventas en tiempo real desde Firebase
+        const ventasRef = ref(db, 'ventas/');
+        onValue(ventasRef, (snapshot) => {
+            const data = snapshot.val();
+            compras = [];
+            
+            if (data) {
+                Object.keys(data).forEach((key) => {
+                    compras.push({ ...data[key], firebaseKey: key });
+                });
+            }
+            renderizarTabla(); // Redibuja la tabla cada vez que haya cambios
+        });
+
+        // 4. Función para obtener la fecha y hora actual formateada
         function obtenerFechaHoraActual() {
             const ahora = new Date();
             const fecha = ahora.toLocaleDateString('es-MX'); // Formato: DD/MM/AAAA
@@ -97,7 +128,7 @@
             return { fecha, hora };
         }
 
-        // 1. Función para dibujar la tabla
+        // 5. Función para dibujar la tabla
         function renderizarTabla() {
             const cuerpo = document.getElementById('cuerpo-tabla');
             cuerpo.innerHTML = '';
@@ -124,12 +155,12 @@
             });
         }
 
-        // 2. Abrir el modal
-        function abrirModal(tipo) {
+        // 6. Abrir el modal (Se agrega a window para que el HTML lo lea)
+        window.abrirModal = function(tipo) {
             if (tipo === 'agregar') {
-                indexEditando = -1;
+                keyEditando = null;
                 document.getElementById('titulo-modal').innerText = "Agregar Compra";
-                document.getElementById('info-automatica').style.display = 'none'; // Ocultar info extra
+                document.getElementById('info-automatica').style.display = 'none'; 
                 
                 // Limpiar campos
                 document.getElementById('compra-cantidad').value = '';
@@ -149,8 +180,9 @@
                             <div class="item-lista-editar">
                                 <span><b>No. ${index + 1}</b> - ${compra.cantidad} unds - $${compra.costo}</span>
                                 <div>
-                                    <button onclick="seleccionarEditar(${index})" class="btn-mini btn-editar-mini">✏️</button>
-                                    <button onclick="eliminarCompra(${index})" class="btn-mini btn-eliminar-mini">🗑️</button>
+                                    <!-- Ahora pasamos el firebaseKey en lugar del index -->
+                                    <button onclick="seleccionarEditar('${compra.firebaseKey}')" class="btn-mini btn-editar-mini">✏️</button>
+                                    <button onclick="eliminarCompra('${compra.firebaseKey}')" class="btn-mini btn-eliminar-mini">🗑️</button>
                                 </div>
                             </div>
                         `;
@@ -160,12 +192,12 @@
             }
         }
 
-        function cerrarModal() {
+        window.cerrarModal = function() {
             document.getElementById('modal-compra').style.display = 'none';
         }
 
-        // 3. Guardar
-        function guardarCompra() {
+        // 7. Guardar Compra (Nueva o Editada)
+        window.guardarCompra = function() {
             const nuevaCantidad = document.getElementById('compra-cantidad').value;
             const nuevoCosto = document.getElementById('compra-costo').value;
 
@@ -174,58 +206,59 @@
                 return;
             }
 
-            if (indexEditando === -1) {
-                // ES NUEVA: Generamos fecha y hora automáticamente
+            if (keyEditando === null) {
+                // ES NUEVA: Generamos fecha y hora automáticamente y guardamos en Firebase
                 const { fecha, hora } = obtenerFechaHoraActual();
-                compras.push({
+                const nuevaVentaRef = push(ref(db, 'ventas')); // Crea el ID único
+                
+                set(nuevaVentaRef, {
                     cantidad: nuevaCantidad,
                     costo: nuevoCosto,
                     hora: hora,
                     fecha: fecha
+                }).then(() => {
+                    cerrarModal(); // La tabla se actualizará sola por el onValue
                 });
             } else {
-                // ES EDICIÓN: Mantenemos la fecha y hora originales, solo actualizamos cantidad y costo
-                compras[indexEditando].cantidad = nuevaCantidad;
-                compras[indexEditando].costo = nuevoCosto;
+                // ES EDICIÓN: Mantenemos fecha y hora originales
+                const compraActual = compras.find(c => c.firebaseKey === keyEditando);
+                set(ref(db, 'ventas/' + keyEditando), {
+                    cantidad: nuevaCantidad,
+                    costo: nuevoCosto,
+                    hora: compraActual.hora, 
+                    fecha: compraActual.fecha 
+                }).then(() => {
+                    cerrarModal();
+                });
             }
-
-            localStorage.setItem('comprasJIRL', JSON.stringify(compras));
-            renderizarTabla();
-            cerrarModal();
         }
 
-        // 4. Seleccionar para Editar
-        function seleccionarEditar(index) {
-            indexEditando = index;
-            const compra = compras[index];
+        // 8. Seleccionar para Editar
+        window.seleccionarEditar = function(firebaseKey) {
+            keyEditando = firebaseKey;
+            const compra = compras.find(c => c.firebaseKey === firebaseKey);
             
             document.getElementById('modal-lista-editar').style.display = 'none';
             document.getElementById('titulo-modal').innerText = "Editar Compra";
             
-            // Mostrar la info automática para que el usuario sepa qué está editando
             const infoDiv = document.getElementById('info-automatica');
             infoDiv.style.display = 'block';
-            infoDiv.innerHTML = `No. Compra: ${index + 1}<br>${compra.fecha} - ${compra.hora}`;
+            infoDiv.innerHTML = `Fecha: ${compra.fecha} <br> Hora: ${compra.hora}`;
             
-            // Solo cargamos cantidad y costo
             document.getElementById('compra-cantidad').value = compra.cantidad;
             document.getElementById('compra-costo').value = compra.costo;
 
             document.getElementById('modal-compra').style.display = 'flex';
         }
 
-        // 5. Eliminar
-        function eliminarCompra(index) {
+        // 9. Eliminar
+        window.eliminarCompra = function(firebaseKey) {
             if(confirm("¿Seguro que deseas eliminar esta compra?")) {
-                compras.splice(index, 1); // Elimina el registro
-                localStorage.setItem('comprasJIRL', JSON.stringify(compras));
-                renderizarTabla(); // Vuelve a dibujar la tabla (los números se reajustan solos)
-                abrirModal('editar'); // Refrescar la lista de edición
+                remove(ref(db, 'ventas/' + firebaseKey)).then(() => {
+                    abrirModal('editar'); // Refrescar la lista de edición
+                });
             }
         }
-
-        // Iniciar
-        renderizarTabla();
     </script>
 </body>
 </html>

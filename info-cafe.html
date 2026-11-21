@@ -17,7 +17,7 @@
         </div>
 
         <div class="contenido-superior">
-            <p id="descripcion-cafe" class="texto-descripcion"></p>
+            <p id="descripcion-cafe" class="texto-descripcion">Cargando descripción...</p>
             <img id="imagen-cafe" src="" alt="Café" class="imagen-derecha">
         </div>
 
@@ -37,38 +37,58 @@
         </div>
 
         <div class="contenedor-boton-editar" style="justify-content: center;">
+            <!-- OJO: Aquí dice calidad.html, asegúrate de que así se llame tu página de la lista -->
             <a href="calidad.html" class="boton-volver">Volver a la lista</a>
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        // 1. Importar Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // 2. Configuración
+        const firebaseConfig = {
+            apiKey: "AIzaSyArLu0w7UVtuGufLfE1K7nLGD8NNScSPoY",
+            authDomain: "lamatadecafejirl.firebaseapp.com",
+            databaseURL: "https://lamatadecafejirl-default-rtdb.firebaseio.com",
+            projectId: "lamatadecafejirl",
+            storageBucket: "lamatadecafejirl.firebasestorage.app",
+            messagingSenderId: "755151796533",
+            appId: "1:755151796533:web:7787740e611d5aaaba347c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // 3. Obtener el ID del café desde la URL (¡Ya NO usamos parseInt!)
         const parametrosUrl = new URLSearchParams(window.location.search);
-        const idCafe = parseInt(parametrosUrl.get('id'));
+        const idCafe = parametrosUrl.get('id');
 
-        let listaCafes = JSON.parse(localStorage.getItem('misCafes')) || [];
-        let cafeActual = listaCafes.find(c => c.id === idCafe);
-
-        function renderizarVista() {
-            if (!cafeActual) {
-                document.getElementById('nombre-cafe').innerText = "Café no encontrado";
-                document.getElementById('descripcion-cafe').innerText = "Vuelve a la lista e intenta de nuevo.";
-                return;
-            }
+        if (idCafe) {
+            // 4. Escuchar los cambios en tiempo real de ESTE café específico
+            const cafeRef = ref(db, 'cafes/' + idCafe);
             
-            document.getElementById('nombre-cafe').innerText = cafeActual.nombre;
-            
-            // Si el editor no puso descripción, mostramos un mensaje
-            document.getElementById('descripcion-cafe').innerText = cafeActual.descripcion || "El editor aún no ha agregado una descripción para este café.";
-            
-            document.getElementById('imagen-cafe').src = cafeActual.imagen;
-            
-            // Si el editor no puso precios, mostramos guiones
-            document.getElementById('precio-alta').innerText = `Precio: $ ${cafeActual.precioAlta || '--'}`;
-            document.getElementById('precio-media').innerText = `Precio: $ ${cafeActual.precioMedia || '--'}`;
-            document.getElementById('precio-baja').innerText = `Precio: $ ${cafeActual.precioBaja || '--'}`;
+            onValue(cafeRef, (snapshot) => {
+                const cafe = snapshot.val();
+                
+                if (cafe) {
+                    document.getElementById('nombre-cafe').innerText = cafe.nombre;
+                    document.getElementById('descripcion-cafe').innerText = cafe.descripcion || "El editor aún no ha agregado una descripción para este café.";
+                    document.getElementById('imagen-cafe').src = cafe.imagen;
+                    
+                    document.getElementById('precio-alta').innerText = `Precio: $ ${cafe.precioAlta || '--'}`;
+                    document.getElementById('precio-media').innerText = `Precio: $ ${cafe.precioMedia || '--'}`;
+                    document.getElementById('precio-baja').innerText = `Precio: $ ${cafe.precioBaja || '--'}`;
+                } else {
+                    document.getElementById('nombre-cafe').innerText = "Café no encontrado";
+                    document.getElementById('descripcion-cafe').innerText = "Vuelve a la lista e intenta de nuevo.";
+                }
+            });
+        } else {
+            document.getElementById('nombre-cafe').innerText = "Café no seleccionado";
+            document.getElementById('descripcion-cafe').innerText = "Por favor, ve a la lista y selecciona un café.";
         }
-
-        renderizarVista();
     </script>
 </body>
 </html>
